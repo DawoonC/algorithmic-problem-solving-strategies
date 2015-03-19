@@ -1,0 +1,9 @@
+#. Task
+1. ResponseJson, UTest -> JY
+2. Validation -> DW
+
+
+#. Source
+1. GET newsFeed should return json data.
+ - json data: { post data }
+ - post data: text, author, time, 
