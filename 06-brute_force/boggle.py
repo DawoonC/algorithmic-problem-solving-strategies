@@ -21,6 +21,7 @@ def get_upper_left(board, current_pos):
     else:
         return (board[current_pos[0]-1][current_pos[1]-1], (current_pos[0]-1, current_pos[1]-1))
 
+
 def get_upper(board, current_pos):
     """
     Get value and location above the current position.
@@ -38,6 +39,7 @@ def get_upper(board, current_pos):
         return None
     else:
         return (board[current_pos[0]-1][current_pos[1]], (current_pos[0]-1, current_pos[1]))
+
 
 def get_upper_right(board, current_pos):
     """
@@ -57,6 +59,7 @@ def get_upper_right(board, current_pos):
     else:
         return (board[current_pos[0]-1][current_pos[1]+1], (current_pos[0]-1, current_pos[1]+1))
 
+
 def get_left(board, current_pos):
     """
     Get value and location of left of the current position.
@@ -74,6 +77,7 @@ def get_left(board, current_pos):
         return None
     else:
         return (board[current_pos[0]][current_pos[1]-1], (current_pos[0], current_pos[1]-1))
+
 
 def get_right(board, current_pos):
     """
@@ -93,6 +97,7 @@ def get_right(board, current_pos):
     else:
         return (board[current_pos[0]][current_pos[1]+1], (current_pos[0], current_pos[1]+1))
 
+
 def get_lower_left(board, current_pos):
     """
     Get value and location of lower left of the current position.
@@ -110,6 +115,7 @@ def get_lower_left(board, current_pos):
         return None
     else:
         return (board[current_pos[0]+1][current_pos[1]-1], (current_pos[0]+1, current_pos[1]-1))
+
 
 def get_lower(board, current_pos):
     """
@@ -129,6 +135,7 @@ def get_lower(board, current_pos):
     else:
         return (board[current_pos[0]+1][current_pos[1]], (current_pos[0]+1, current_pos[1]))
 
+
 def get_lower_right(board, current_pos):
     """
     Get value and location of lower right of the current position.
@@ -147,6 +154,7 @@ def get_lower_right(board, current_pos):
     else:
         return (board[current_pos[0]+1][current_pos[1]+1], (current_pos[0]+1,current_pos[1]+1))
 
+
 pos_getters = [
     get_upper_left,
     get_upper,
@@ -157,6 +165,7 @@ pos_getters = [
     get_lower,
     get_lower_right
 ]
+
 
 def check_char_match(board, current_pos, word):
     """
@@ -180,6 +189,7 @@ def check_char_match(board, current_pos, word):
                 return True
     return False
 
+
 def check_word_exist(board, word):
     """
     Checks if the word exists in the board.
@@ -201,8 +211,10 @@ def check_word_exist(board, word):
     print word, 'NO'
     return False
 
+
 def readline():
     return raw_input()
+
 
 def boggle():
     total_tests = int(readline())
@@ -213,6 +225,7 @@ def boggle():
         total_words = int(readline())
         for word in range(total_words):
             check_word_exist(board, readline())
-    return
 
-boggle()  # run
+
+if __name__ == '__main__':
+    boggle()  # run
