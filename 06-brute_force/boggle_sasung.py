@@ -35,15 +35,15 @@ def hasWord(board, y, x, word):
                 return True
 
 def boggle():
-    C = int(raw_input())
+    case = int(raw_input())
     board=[]
 
-    for i in range(0, C):
+    for i in range(0, case):
         for j in range(0,5):
             board.append([str(x) for x in raw_input().split()])
 
-    num = int(raw_input())
-    for n in range(0,num):
+    checkCount = int(raw_input())
+    for n in range(0,checkCount):
         word = raw_input()
         result = []
         for row in range(0,5):
