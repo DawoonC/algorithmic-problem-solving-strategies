@@ -59,10 +59,10 @@ object Boggle {
       if( !board(y)(x).equals(word.charAt(0)) )  return false
       if( word.size == 1 )  return true
       
-      for( direction <- 0 to 7 )  {
+      for( direction <- 0 to 7 )  {  //  8
         var nextY = y + dy(direction)
         var nextX = x + dx(direction)
-        if( hasWord(nextX, nextY, word.substring(1)) )  return true
+        if( hasWord(nextX, nextY, word.substring(1)) )  return true  //  n
       }
       return false
     }
