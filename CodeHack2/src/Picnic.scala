@@ -41,7 +41,6 @@ object Picnic {
       cases -= 1
     }
 
-    
     def countPairs(taken:Array[Boolean]): Int = {
       var firstFree = -1
       
