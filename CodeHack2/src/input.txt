@@ -1,3 +1,21 @@
+//	wildcard
+3
+he?p
+3
+help
+heap
+helpp
+*p*
+3
+help
+papa
+hello
+*bb*
+1
+babbbc
+
+
+
 // picnic
 1
 2 1
