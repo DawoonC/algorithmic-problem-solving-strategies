@@ -7,9 +7,11 @@ def solve(fence_height, left, right):
 
     mid = (left + right) / 2
     ret = max(solve(fence_height, left, mid), solve(fence_height, mid + 1, right))
+    # print ret
     lo = mid
     hi = mid + 1
     height = min(fence_height[lo], fence_height[hi])
+    print height
     ret = max(ret, height * 2)
 
     while left < lo or hi < right:

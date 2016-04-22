@@ -23,6 +23,7 @@ def decompressed(compressed):
 def quadtree():
     total_tests = int(raw_input())
     for testcase in range(total_tests):
-        compressed = raw_input()
+        compressed = str(raw_input())
         print decompressed(compressed)
 
+quadtree()

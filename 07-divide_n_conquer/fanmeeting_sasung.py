@@ -30,6 +30,7 @@ def add_to(list_x, list_y, position):
         else:
             list_x.append(list_y[i])
 
+    print(list_x,list_y)
 
 def sub_from(list_x, list_y):
     for i in range(len(list_y)):
@@ -86,4 +87,4 @@ def fan_meeting():
         fan = read()
         print(hugs(idol, fan))
 
-fan_meeting()
+# fan_meeting()
