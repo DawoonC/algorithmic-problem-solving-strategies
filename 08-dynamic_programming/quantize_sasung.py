@@ -41,7 +41,7 @@ def quantize(prev, total_length, parts, cache, p_sum, p_sq_sum):
     if parts == 0:
         return inf
 
-    #캐시에 저장
+    #캐시 가져오기
     ret = cache[prev, parts]
 
     #캐시에 있으면 반환
@@ -51,7 +51,7 @@ def quantize(prev, total_length, parts, cache, p_sum, p_sq_sum):
     ret = inf
 
     for part_size in range(1 , total_length - prev + 1):
-        ret = min(ret, min_error(prev, prev + part_size - 1, p_sum, p_sq_sum) + quantize(prev + part_size, total_length, parts -1, cache, p_sum, p_sq_sum))
+        ret = cache[prev, parts] = min(ret, min_error(prev, prev + part_size - 1, p_sum, p_sq_sum) + quantize(prev + part_size, total_length, parts -1, cache, p_sum, p_sq_sum))
 
     return ret
 
