@@ -6,7 +6,7 @@ public class LIS {
     private static Scanner sc;
     static final int MAX_NUM = 500;
     static int inputSize = 0;
-//    static int[] cache = new int[MAX_NUM];
+    static int[] cache = new int[MAX_NUM];
     static int[] cache2 = new int[MAX_NUM+1];
     
 	public static void main(String[] args) {
@@ -15,7 +15,7 @@ public class LIS {
         ArrayList<Integer> numList = new ArrayList<Integer>();
         
         while(cases-- > 0) {
-//        	Arrays.fill(cache, -1);
+        	Arrays.fill(cache, -1);
         	Arrays.fill(cache2, -1);
         	
         	numList.clear();
@@ -31,7 +31,7 @@ public class LIS {
 //            for (int begin = 0; begin < inputSize; begin++) {
 //				maxLen = Math.max( maxLen, lis2(numList, begin) );
 //			}
-//            System.out.println( lis2(numList, maxLen) );
+//            System.out.println( maxLen );
             
 //            System.out.println( lis2(numList, 0) );
 //            System.out.println( lis(numList) );
@@ -51,17 +51,17 @@ public class LIS {
 		return ret;
 	}
 
-//	private static int lis2(ArrayList<Integer> numList, int start) {
-//		if( cache[start] != -1 )	return cache[start];
-//		int ret = 1;
-//		for (int next = start+1; next < inputSize; next++) {
-//			if( numList.get(start) < numList.get(next) )
-//				cache[start] = Math.max( ret, lis2(numList, next)+1 );
-//				ret = cache[start];
-//		}
-//		
-//		return ret;
-//	}
+	private static int lis2(ArrayList<Integer> numList, int start) {
+		if( cache[start] != -1 )	return cache[start];
+		int ret = 1;
+		for (int next = start+1; next < inputSize; next++) {
+			if( numList.get(start) < numList.get(next) )
+				cache[start] = Math.max( ret, lis2(numList, next) + 1 );
+				ret = cache[start];
+		}
+		
+		return ret;
+	}
 
 	private static int lis(ArrayList<Integer> numList) {
 		if( numList.isEmpty() )	return 0;
