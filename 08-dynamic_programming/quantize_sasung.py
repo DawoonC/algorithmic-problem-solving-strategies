@@ -3,9 +3,7 @@
 # https://algospot.com/judge/problem/read/QUANTIZE
 
 from collections import defaultdict
-
 inf = 987654321
-
 
 #p_sum은 A의 부분 합 미리 저장, p_sq_sum은 A 제곱의 부분합 미리 저장
 def pre_calc(A, p_sum, p_sq_sum, total_length):
