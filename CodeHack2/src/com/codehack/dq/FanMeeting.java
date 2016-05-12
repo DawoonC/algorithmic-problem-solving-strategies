@@ -1,3 +1,4 @@
+package com.codehack.dq;
 import java.util.ArrayList;
 import java.util.Scanner;
 

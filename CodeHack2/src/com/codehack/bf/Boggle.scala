@@ -6,6 +6,8 @@ KARA NO
 PANDORA NO
 GIAZAPX YES
  */
+package com.codehack.bf
+
 object Boggle {
 //  val dx = Array( -1, -1, -1,  1, 1, 1,  0, 0 )
 //  val dy = Array( -1,  0,  1, -1, 0, 1, -1, 1 )

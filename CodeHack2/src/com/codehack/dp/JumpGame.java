@@ -1,3 +1,4 @@
+package com.codehack.dp;
 import java.util.Scanner;
 
 /*

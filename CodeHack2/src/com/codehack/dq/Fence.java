@@ -1,3 +1,4 @@
+package com.codehack.dq;
 import java.util.Scanner;
 
 public class Fence {

@@ -1,3 +1,5 @@
+package com.codehack.bf
+
 import scala.util.control.Breaks._
 
 object Picnic {
