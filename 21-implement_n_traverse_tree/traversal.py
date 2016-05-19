@@ -12,8 +12,10 @@ def calculate_postorder(preorder, inorder, postorder):
         return
     root = preorder[0]
     l_partition = inorder.index(root)
+    print l_partition
     calculate_postorder(preorder[1:l_partition+1], inorder[:l_partition], postorder)
     calculate_postorder(preorder[l_partition+1:], inorder[l_partition+1:], postorder)
+    print postorder
     postorder.append(root)
     return
 
