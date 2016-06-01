@@ -1,3 +1,9 @@
+//	RunningMedian
+3
+10 1 0
+10 1 1
+10000 1273 4936
+
 //	Insertion
 2
 5
