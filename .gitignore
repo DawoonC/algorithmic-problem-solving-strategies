@@ -1,3 +1,4 @@
 /legacy_api/
 /Sample Project/
 /CodeHack2/.cache-main
+*.pyc
