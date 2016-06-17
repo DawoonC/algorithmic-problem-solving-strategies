@@ -1,13 +1,14 @@
 # Problem ID: DICTIONARY
 # https://algospot.com/judge/problem/read/DICTIONARY
 
-eng = lambda x:ord(x)-ord('a')
+idx = lambda x:ord(x)-ord('a')
 
 def make_graph(i, j, adj):
     for k in xrange(min(len(i),len(j))):
-        x,y = i[k],j[k]
-        if x!=y:
-            adj[eng(x)][eng(y)] = 1
+        x = i[k]
+        y = j[k]
+        if x != y:
+            adj[idx(x)][idx(y)] = 1
             break
 
 def dfs(i, adj, vertex, order):
@@ -28,7 +29,7 @@ def runner():
         error = 0
 
         for i in xrange(n-1):
-            make_graph(words[i], words[i+1],adj)
+            make_graph(words[i], words[i+1], adj)
 
         for i in xrange(26):
             if vertex[i] == 0:

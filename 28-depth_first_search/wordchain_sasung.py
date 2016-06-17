@@ -69,10 +69,8 @@ for C in range(int(input())):
         set_words.add(a)
         set_words.add(b)
 
-    # print graph
-    # print adj
     # print outdegree, indegree
-    print set_words
+    # print set_words
     print(solve())
 
 '''
