@@ -13,11 +13,11 @@ def get_euler_circuit(now, circuit):
 
 def get_euler_trail_or_circuit():
     circuit = []
-    for c in dic:
+    for c in set_words:
         if outdegree[c] == indegree[c]+1:
             get_euler_circuit(c, circuit)
             return circuit
-    for c in dic:
+    for c in set_words:
         if outdegree[c]:
             get_euler_circuit(c, circuit)
             return circuit
@@ -27,7 +27,7 @@ def get_euler_trail_or_circuit():
 def check_euler():
     plus1 = 0
     minus1 = 0
-    for c in dic:
+    for c in set_words:
         delta = outdegree[c] - indegree[c]
         if not(-1 <= delta <= 1):
             return False
@@ -38,7 +38,7 @@ def check_euler():
     return (plus1 == 1 and minus1 == 1) or (plus1 == 0 or minus1 == 0)
 
 
-def word_chain():
+def solve():
     if not check_euler():
         return 'IMPOSSIBLE'
     circuit = get_euler_trail_or_circuit()
@@ -58,7 +58,7 @@ for C in range(int(input())):
     adj = defaultdict(lambda: defaultdict(int))
     indegree = defaultdict(int)
     outdegree = defaultdict(int)
-    dic = set()
+    set_words = set()
     for w in (raw_input() for i in range(N)):
         a= w[0]
         b = w[-1]
@@ -66,14 +66,14 @@ for C in range(int(input())):
         adj[a][b] += 1
         outdegree[a] += 1
         indegree[b] += 1
-        dic.add(a)
-        dic.add(b)
+        set_words.add(a)
+        set_words.add(b)
 
     # print graph
     # print adj
     # print outdegree, indegree
-    # print dic
-    print(word_chain())
+    print set_words
+    print(solve())
 
 '''
 3
