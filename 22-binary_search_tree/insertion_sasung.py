@@ -4,9 +4,9 @@
 
 def insertion(a, m):
     for i in range(len(m)-1, 0, -1):
-        # print "first",i+1, a[i-m[i]], a
+        print "first",i+1, a[i-m[i]], a
         a.insert(i+1, a[i-m[i]])
-        # print "second",a
+        print "second",a
         del a[i-m[i]]
     return ' '.join([str(x) for x in a])
 

@@ -16,6 +16,7 @@ def dfs(i, adj, vertex, order):
     for j in xrange(26):
         if adj[i][j] == 1 and vertex[j] == 0:
             dfs(j, adj, vertex, order)
+
     order.append(i)
 
 def runner():
