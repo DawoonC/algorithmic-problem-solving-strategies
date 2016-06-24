@@ -28,7 +28,7 @@ for case in range(int(input())):
     for a, b in (map(int, raw_input().split()) for _ in range(H)):
         halls[a].append(b)
         halls[b].append(a)
-    print halls
+    # print halls
 
     for i in range(G):
         if not visited[i] and dfs(i) == 'unwatched':
@@ -50,5 +50,4 @@ for case in range(int(input())):
 2 3
 1000 1
 0 1
-
 '''
