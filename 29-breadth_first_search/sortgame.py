@@ -39,10 +39,13 @@ def convert_nums(unsorted_nums, n):
 
 def sortgame():
     total_tests = int(readline())
+    answer_dict = defaultdict(lambda: False)
     for testcase in range(total_tests):
         n = int(readline())
+        sort_dict = answer_dict[n]
+        if not sort_dict:
+            sort_dict = precalc(n)
         nums = map(int, readline().split())
-        sort_dict = precalc(n)
         converted_nums = convert_nums(nums, n)
         print sort_dict[converted_nums]
 
