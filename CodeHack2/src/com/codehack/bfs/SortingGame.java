@@ -1,158 +1,121 @@
 package com.codehack.bfs;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class SortingGame {
-    private static Scanner sc;
+	private static Scanner sc;
 	private static int nums;
-	private static HashMap<ArrayList<Integer>, Integer> toSort = new HashMap<ArrayList<Integer>, Integer>();
-	private static ArrayList<HashMap<ArrayList<Integer>, Integer>> toSortCache = new ArrayList<HashMap<ArrayList<Integer>, Integer>>(8);
-	private static ArrayList<Integer> reversedHere = new ArrayList<Integer>();
-    
-	public static void main(String[] args) {
-        sc = new Scanner(System.in);
-        int cases = sc.nextInt();
-      
-        for (int i = 0; i < 8; i++) {
-			toSortCache.add( (HashMap<ArrayList<Integer>, Integer>) toSort.clone() );
-		}
-        
-        while(cases-- > 0) {
-        	toSort.clear();
-        	nums = sc.nextInt();
-        	ArrayList<Integer> numList = new ArrayList<Integer>();
+	private static HashMap<Integer, Integer> toSort = new HashMap<Integer, Integer>();
+	private static ArrayList<HashMap<Integer, Integer>> toSortCache = new ArrayList<HashMap<Integer, Integer>>(8);
 
-        	for (int i = 0; i < nums; i++) {
-				numList.add( sc.nextInt() );
+	public static void main(String[] args) {
+		sc = new Scanner(System.in);
+		int cases = sc.nextInt();
+
+		for (int i = 0; i < 8; i++) {
+			toSortCache.add( toSort );
+		}
+
+		int[] numList = new int[8];
+		while (cases-- > 0) {
+			toSort.clear();
+			nums = sc.nextInt();
+
+			for (int i = 0; i < nums; i++) {
+				numList[i] = sc.nextInt();
 			}
 
-        	System.out.println( solve(numList) );
-//        	System.out.println( bfs(numList) );
-        }
+			System.out.println( solve(numList) );
+			// System.out.println( bfs(numList) );
+		}
 	}
+
+	private static int solve(int[] numList) {
+		toSort = toSortCache.get(nums - 1);
+		if (toSort == null || toSort.size() == 0)
+			precalc();
+
+		int fixedInt = 0;
+		for (int i = 0; i < nums; i++) {
+			int smaller = 1;
+			for (int j = 0; j < nums; j++) {
+				if (numList[j] < numList[i])
+					smaller++;
+			}
+			
+			fixedInt += (smaller * (Math.pow(10, (nums-i-1))) );
+		}
+		
+
+//		for (int i = 0; i < nums ; i++) {
+//			fixedInt += (fixed.get(i) * (Math.pow(10, (nums-i-1))) );
+//		}
+
+//		System.out.println( "fixedInt: " + fixedInt );
+		return toSort.get(fixedInt);
+	}
+
 
 	private static void precalc() {
 //		System.out.println( "make precalc for " + nums );
-		ArrayList<Integer> perm = new ArrayList<Integer>();
-		for (int i = 0; i < nums; i++) {
-			perm.add( i );
+		int perm = 0;
+		for (int i = 1; i <= nums; i++) {
+			perm += (i * (Math.pow(10, (nums-i))) );
 		}
 		
-		Queue<ArrayList<Integer>> queue = new LinkedList<ArrayList<Integer>>();
-		
-		queue.add( (ArrayList<Integer>) perm.clone() );
-		toSort.put( (ArrayList<Integer>) perm.clone(), 0 );
-		
-		while( !queue.isEmpty() )	{
-			ArrayList<Integer> here = queue.poll();
+		Queue<Integer> queue = new LinkedList<Integer>();
+
+		queue.add( perm );
+		toSort.put( perm, 0);
+
+		while (!queue.isEmpty()) {
+			int here = queue.poll();
 			int cost = toSort.get(here);
 			
+			StringBuffer sb = new StringBuffer();
+			sb.append(here);
+			String hereStr = sb.toString();
+//			String hereStr = here + "";
+
 			for (int i = 0; i < nums; i++) {
-				for (int j = i+2; j <= nums; j++) {
-					ArrayList<Integer> hereCopy = (ArrayList<Integer>) here.clone();
-					List<Integer> head = hereCopy.subList(0, i);
-					List<Integer> mid = hereCopy.subList(i, j);
-					List<Integer> tail = hereCopy.subList(j, nums);
-					
-					Collections.reverse( mid );
-
-					reversedHere.clear();
-					reversedHere.addAll( head );
-					reversedHere.addAll( mid );
-					reversedHere.addAll( tail );
-
-					ArrayList<Integer> reversedHereCopy = (ArrayList<Integer>) reversedHere.clone();
-					if( !toSort.containsKey(reversedHereCopy) )	{
-//						System.out.println( "toSort.put: " + reversedHere + " cost: " + (cost+1) );
-						toSort.put(reversedHereCopy, cost+1);
-						queue.add( reversedHereCopy );
+				for (int j = i + 2; j <= nums; j++) {
+					int reversedHere = reverse( hereStr.toCharArray(), i, j );
+					if (!toSort.containsKey(reversedHere)) {
+						toSort.put(reversedHere, cost + 1);
+						queue.add(reversedHere);
 					}
-
-					Collections.reverse( mid );
 				}
 			}
 		}
-		
-		toSortCache.set( nums-1, (HashMap<ArrayList<Integer>, Integer>) toSort.clone() );
+
+		toSortCache.set( nums-1, (HashMap<Integer, Integer>) toSort.clone() );
 	}
 
-	private static int solve(ArrayList<Integer> numList) {
-		ArrayList<Integer> fixed = new ArrayList<Integer>();
+
+	private static int reverse(char[] list, int start, int end) {
+		int listSize = list.length;
+		StringBuffer str = new StringBuffer();
 		
-		toSort = toSortCache.get( nums-1 );
-    	if( toSort == null || toSort.size() == 0 )	precalc();
-		
-		for (int i = 0; i < nums; i++) {
-			int smaller = 0;
-			for (int j = 0; j < nums; j++) {
-				if( numList.get(j) < numList.get(i) )	smaller++;
-			}
-			fixed.add( smaller );
+		for (int i = 0; i < start; i++) {
+			str.append( list[i] );
 		}
 		
-		return toSort.get( fixed );
-	}
+		int idx = end-1;
+		for (int i = start; i < end; i++) {
+			str.append( list[idx] );
+			idx--;
+		}
 
-
-	private static int bfs(ArrayList<Integer> numList) {
-//		ArrayList<Integer> reversedHere = new ArrayList<Integer>();
-		reversedHere.clear();
-
-		//	for stop
-		ArrayList<Integer> sorted = (ArrayList<Integer>) numList.clone();
-		Collections.sort( sorted );
-//		System.out.println( numList );
-//		System.out.println( numListClone );
-//		System.out.println( sorted );
-		
-		Queue<ArrayList<Integer>> queue = new LinkedList<ArrayList<Integer>>();
-		HashMap<ArrayList<Integer>, Integer> distance = new HashMap<ArrayList<Integer>, Integer>();
-		
-		distance.put( (ArrayList<Integer>) numList.clone(), 0 );
-		queue.add( (ArrayList<Integer>) numList.clone() );
-		
-		while( !queue.isEmpty() )	{
-			ArrayList<Integer> here = queue.poll();
-			
-//			System.out.println( "here: " + here );
-//			System.out.println( "sorted: " + sorted );
-			if( here.equals(sorted) )	return distance.get(here);
-			int cost = distance.get(here);
-			
-			for (int i = 0; i < nums; i++) {
-				for (int j = i+2; j <= nums; j++) {
-					ArrayList<Integer> hereCopy = (ArrayList<Integer>) here.clone();
-					
-					List<Integer> head = hereCopy.subList(0, i);
-					List<Integer> mid = hereCopy.subList(i, j);
-					List<Integer> tail = hereCopy.subList(j, nums);
-					
-					Collections.reverse( mid );
-
-					reversedHere.clear();
-					reversedHere.addAll( head );
-					reversedHere.addAll( mid );
-					reversedHere.addAll( tail );
-
-					ArrayList<Integer> reversedHereCopy = (ArrayList<Integer>) reversedHere.clone();
-					if( !distance.containsKey(reversedHereCopy) )	{
-//						System.out.println( "toSort.put: " + reversedHere + " cost: " + (cost+1) );
-						distance.put(reversedHereCopy, cost+1);
-						queue.add( reversedHereCopy );
-					}
-
-					Collections.reverse( mid );
-				}
-			}
-			
+		for (int i = end; i < listSize; i++) {
+			str.append( list[i] );
 		}
 		
-		return -1;
+		return Integer.parseInt( str.toString() );
 	}
-
+	
+	
 }
