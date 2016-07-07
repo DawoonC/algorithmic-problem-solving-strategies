@@ -23,7 +23,6 @@ public class FireTrucks {
 			return 0;
 		}
 	}
-
 	
 	private static Scanner sc;
 
