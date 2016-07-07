@@ -24,6 +24,7 @@ public class FireTrucks {
 		}
 	}
 
+	
 	private static Scanner sc;
 
 	private static final int INF_NUM = 9999999;
