@@ -58,7 +58,7 @@ public class SortingGame {
 //		System.out.println( "fixedInt: " + fixedInt );
 		return toSort.get(fixedInt);
 	}
-
+ 
 
 	private static void precalc() {
 //		System.out.println( "make precalc for " + nums );
