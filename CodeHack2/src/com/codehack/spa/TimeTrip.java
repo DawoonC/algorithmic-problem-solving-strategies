@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class TimeTrip {
-	private static class Pair {
+	static class Pair {
 		private int cost;
 		private int here;
 
@@ -14,7 +14,7 @@ public class TimeTrip {
 		}
 	}
 
-	private static class RetVal {
+	static class RetVal {
 		int past;
 		int future;
 
@@ -28,6 +28,7 @@ public class TimeTrip {
 	private static final int INF = 9999999;
 	private static ArrayList<ArrayList<Pair>> adj = new ArrayList<ArrayList<Pair>>();
 	private static boolean[][] worpMat;
+	private static boolean[][] worpMat2;
 
 	public static void main(String[] args) {
 		sc = new Scanner(System.in);
@@ -38,6 +39,7 @@ public class TimeTrip {
 			int numG = sc.nextInt();
 			int numW = sc.nextInt();
 			worpMat = new boolean[numW][numW];
+			worpMat2 = new boolean[numW][numW];
 
 			for (int i = 0; i < numW; i++) {
 				adj.add(new ArrayList<Pair>());
@@ -47,7 +49,7 @@ public class TimeTrip {
 				int u = sc.nextInt();
 				int v = sc.nextInt();
 				int d = sc.nextInt();
-				worpMat[u][v] = true;
+//				worpMat[u][v] = true;
 				adj.get(u).add(new Pair(v, d));
 			}
 
@@ -72,6 +74,20 @@ public class TimeTrip {
 				future = "INFINITY";
 
 			System.out.println(past + " " + future);
+			
+//			for (int i = 0; i < numW; i++) {
+//				for (int j = 0; j < numW; j++) {
+//					System.out.print( worpMat[i][j] + " " );
+//				}
+//				System.out.println("");
+//			}
+//			
+//			for (int i = 0; i < numW; i++) {
+//				for (int j = 0; j < numW; j++) {
+//					System.out.print( worpMat2[i][j] + " " );
+//				}
+//				System.out.println("");
+//			}
 		}
 	}
 
@@ -97,8 +113,22 @@ public class TimeTrip {
 					int cost = adj.get(here).get(i).cost;
 
 					// try relex
-					upper[there] = Math.min(upper[there], upper[here] + cost);
-					lower[there] = Math.max(lower[there], lower[here] + cost);
+					int path = Math.min(upper[there], upper[here] + cost);
+					if( upper[there] > path )	{
+						worpMat[src][here] = true;
+						worpMat[here][target] = true;
+					}
+					upper[there] = path;
+					
+					int path2 = Math.max(lower[there], lower[here] + cost);
+					if( lower[there] < path2 )	{
+						worpMat2[src][here] = true;
+						worpMat2[here][target] = true;
+					}
+					lower[there] = path2;
+					
+//					upper[there] = Math.min(upper[there], upper[here] + cost);
+//					lower[there] = Math.max(lower[there], lower[here] + cost);
 				}
 			}
 		}
@@ -116,7 +146,7 @@ public class TimeTrip {
 				}
 
 				if (lower[here] + cost > lower[there]) {
-					if (worpMat[src][here] && worpMat[here][target]) {
+					if (worpMat2[src][here] && worpMat2[here][target]) {
 						lowerInf = true;
 					}
 				}
