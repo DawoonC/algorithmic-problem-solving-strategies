@@ -1,14 +1,14 @@
 from collections import defaultdict
 
-def bellman_ford(g, start):
+def bellman_ford(g, start, num_of_v):
     upper_dist = defaultdict(lambda: float('inf'))
     upper_dist[start] = 0
-    v_list = g.keys()
+    v_list = range(num_of_v)
     updated = False
     # iterate V times
     for _ in v_list:
         updated = False
-        for v in v_list:
+        for v in g.keys():
             for w in g[v].keys():
                 if upper_dist[w] > upper_dist[v]+g[v][w]:
                     upper_dist[w] = upper_dist[v]+g[v][w]
