@@ -1,5 +1,6 @@
 # Problem ID: CLOCKSYNC
 # https://algospot.com/judge/problem/read/CLOCKSYNC
+# 30ms
 
 from collections import defaultdict
 
@@ -61,7 +62,7 @@ def remove_pushed_switches(pushed_switches, switch_dict):
     for key in switch_dict.keys():
         for switch in pushed_switches:
             if switch in switch_dict[key]:
-                switch_dict[key].pop(switch_dict[key].index(switch))
+                switch_dict[key].remove(switch)
 
 
 def faster_sync(switch_dict, clock_dict):
@@ -84,8 +85,9 @@ def faster_sync(switch_dict, clock_dict):
             # then it means it has fixed number of push count
             if len(switch_list) == 1:
                 count += ((12 - clock_dict[clock]) / 3)
-                push_switch(switch_list[0], clock_dict, (12 - clock_dict[clock]) / 3)
-                pushed_switches.add(switch_list[0])
+                switch = switch_list.pop()
+                push_switch(switch, clock_dict, (12 - clock_dict[clock]) / 3)
+                pushed_switches.add(switch)
                 fixed_clocks.add(clock)
         # if there was only one switch pushed in this iteration,
         # then all clocks with fixed count must have equal values
@@ -111,10 +113,11 @@ def clocksync():
         clocks = map(int, readline().split())
         if clocks[14] != clocks[15] or clocks[8] != clocks[12]:
             print -1
-        switch_dict = defaultdict(list)
+            continue
+        switch_dict = defaultdict(set)
         for switch in range(10):
             for clock in switches[switch]:
-                switch_dict[clock].append(switch)
+                switch_dict[clock].add(switch)
         clock_dict = {}
         for clock in range(16):
             clock_dict[clock] = clocks[clock]

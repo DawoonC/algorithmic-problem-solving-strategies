@@ -2,6 +2,7 @@
 # https://algospot.com/judge/problem/read/BOGGLE
 
 import sys
+from collections import defaultdict
 
 def get_upper_left(board, current_pos):
     """
@@ -167,7 +168,7 @@ pos_getters = [
 ]
 
 
-def check_char_match(board, current_pos, word):
+def check_char_match(board, current_pos, word, boggle_dict):
     """
     Recursively checks if the word matches characters in the board.
 
@@ -181,16 +182,19 @@ def check_char_match(board, current_pos, word):
     """
     if word == '':
         return True
+    result = boggle_dict[(current_pos[0],current_pos[1],word)]
+    if result != None:
+        return result
     for pos_getter in pos_getters:
         next = pos_getter(board, current_pos)
         if next and next[0] == word[0]:
-            result = check_char_match(board, next[1], word[1:])
+            result = boggle_dict[(current_pos[0],current_pos[1],word)] = check_char_match(board, next[1], word[1:], boggle_dict)
             if result:
                 return True
     return False
 
 
-def check_word_exist(board, word):
+def check_word_exist(board, word, boggle_dict):
     """
     Checks if the word exists in the board.
 
@@ -204,11 +208,12 @@ def check_word_exist(board, word):
     for row in range(5):
         for col in range(5):
             if board[row][col] == word[0]:
-                result = check_char_match(board, (row, col), word[1:])
+                result = boggle_dict[(row,col,word)]
+                if result != None:
+                    return result
+                result = boggle_dict[(row,col,word)] = check_char_match(board, (row, col), word[1:], boggle_dict)
                 if result:
-                    print word, 'YES'
                     return True
-    print word, 'NO'
     return False
 
 
@@ -223,8 +228,14 @@ def boggle():
         for row in range(5):
             board.append(readline())
         total_words = int(readline())
-        for word in range(total_words):
-            check_word_exist(board, readline())
+        for i in range(total_words):
+            word = readline()
+            boggle_dict = defaultdict(lambda: None)
+            result = check_word_exist(board, word, boggle_dict)
+            if result:
+                print word, 'YES'
+            else:
+                print word, 'NO'
 
 
 if __name__ == '__main__':
