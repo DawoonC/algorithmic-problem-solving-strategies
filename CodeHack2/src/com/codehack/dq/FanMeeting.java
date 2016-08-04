@@ -1,13 +1,14 @@
 package com.codehack.dq;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class FanMeeting {
-    private static Scanner sc;
+    private static final int[] EMPTY = {};
+	private static Scanner sc;
+//	private static int callCnt;
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
         sc = new Scanner(System.in);
         int cases = sc.nextInt();
         while(cases-- > 0) {
@@ -18,7 +19,7 @@ public class FanMeeting {
         }
     }
 
-	private static int hug(char[] members, char[] fans) {
+	private static int hug(char[] members, char[] fans) throws Exception {
 		int[] number1 = new int[members.length];
 		int[] number2 = new int[fans.length];
 		
@@ -28,20 +29,19 @@ public class FanMeeting {
 		}
 		
 		for (int i = 0; i < fans.length; i++) {
-			if( fans[i] == 'M' )	number2[i] = 1;
-			else	number2[i] = 0;
-//			number2.add( (fans[fans.length-i-1] == 'M') );
+			if( fans[i] == 'M' )	number2[fans.length-i-1] = 1;
+			else	number2[fans.length-i-1] = 0;
 		}
 		
-		for (int i = 0; i < number1.length; i++) {
-			System.out.print(number1[i]);
-		}
-		System.out.println( " " );
-		
-		for (int i = 0; i < number2.length; i++) {
-			System.out.print(number2[i]);
-		}
-		System.out.println( " " );
+//		for (int i = 0; i < number1.length; i++) {
+//			System.out.print(number1[i]);
+//		}
+//		System.out.println( " " );
+//		
+//		for (int i = 0; i < number2.length; i++) {
+//			System.out.print(number2[i]);
+//		}
+//		System.out.println( " " );
 		
 //		subFrom( number1, number2 );
 //		for (int i = 0; i < number1.length; i++) {
@@ -54,7 +54,7 @@ public class FanMeeting {
 //			System.out.print(ret[i]);
 //		}
 //		System.out.println( " " );
-		
+
 		
 		int[] result = karatsuba( number1, number2 );
 		
@@ -68,31 +68,46 @@ public class FanMeeting {
 //		return 0;
 	}
 
-	private static int[] karatsuba(int[] number1, int[] number2) {
+	private static int[] karatsuba(int[] number1, int[] number2) throws Exception {
+//		if( callCnt > 10 )	throw new Exception();
+//		callCnt++;
 		int n1Len = number1.length;
 		int n2Len = number2.length;
 		
 		if( n1Len < n2Len )	return karatsuba( number2, number1 );
 		
 		//	base conditions
-		if( n1Len == 0 || n1Len == 0 )	return new int[1];
-//		if( n1Len <= 50 )	return multiply( number1, number2 );	//	to normal process
+		if( n1Len == 0 || n1Len == 0 )	return EMPTY;
+		if( n1Len <= 50 )	return multiply( number1, number2 );	//	to normal process
 		
 		int half = n1Len / 2;
 		
 		//	z2 = a1 * b1;
 		//	z0 = a0 * b0
 		//	z1 = (a0 + a1) * (b0 + b1) - z0 - z2
-		//	vector<int> a0(number1.begin(), number1.begin()+half);
-		//	vector<int> a1(number1.begin()+half, number1.end());
-		//	vector<int> b0(number2.begin(), number2.begin() + min(number2.length, half) );
-		//	vector<int> b1(number2.begin() + min(number2.length, half), number2.end() );
 		int[] a0 = Arrays.copyOf( number1, half );	//	params is cnt
-//		int[] a1 = Arrays.copyOfRange( number1, half, number1.length-1 );	//	params are idx
-		int[] a1 = Arrays.copyOfRange( number1, half-1, number1.length-1 );	//	params are idx
+		int[] a1 = Arrays.copyOfRange( number1, half, number1.length );	//	params are idx
 		int[] b0 = Arrays.copyOf( number2, Math.min(half, number2.length) );	//	params is cnt
-//		int[] b1 = Arrays.copyOfRange( number2, Math.min(half, number2.length-1), number2.length-1 );	//	params are idx
-		int[] b1 = Arrays.copyOfRange( number2, Math.min(half-1, number2.length-1), number2.length-1 );	//	params are idx
+		int[] b1 = Arrays.copyOfRange( number2, Math.min(half, number2.length), number2.length );	//	params are idx
+/*
+		System.out.print("number1: ");
+		for (int i = 0; i < number1.length; i++) {
+			System.out.print( number1[i] );
+		}
+		System.out.println( " " );
+		
+		System.out.print("a0: ");
+		for (int i = 0; i < a0.length; i++) {
+			System.out.print( a0[i] );
+		}
+		System.out.println( " " );
+
+		System.out.print("a1: ");
+		for (int i = 0; i < a1.length; i++) {
+			System.out.print( a1[i] );
+		}
+		System.out.println( " " );
+*/
 		
 		//	z2 = a1 * b1;
 		int[] z2 = karatsuba( a1, b1 );		
@@ -101,18 +116,25 @@ public class FanMeeting {
 		int[] z0 = karatsuba( a0, b0 );
 		
 		//	z1 = (a0 + a1) * (b0 + b1) - z0 - z2
-		addTo( a0, a1, 0 );	//	(a0+a1)
-		addTo( b0, b1, 0 );	//	(b0+b1)
+		a0 = addTo( a0, a1, 0 );	//	(a0+a1)
+		b0 = addTo( b0, b1, 0 );	//	(b0+b1)
 		int[] z1 = karatsuba( a0, b0 );
 		
 		subFrom( z1, z0 );
 		subFrom( z1, z2 );
 		
 		int[] retVal = new int[number1.length+number2.length];
-		addTo( retVal, z0, 0 );
-		addTo( retVal, z1, half );
-		addTo( retVal, z2, half+half );
+		retVal = addTo( retVal, z0, 0 );
+		retVal = addTo( retVal, z1, half );
+		retVal = addTo( retVal, z2, half+half );
 
+/*		
+		System.out.print("retVal: ");
+		for (int i = 0; i < retVal.length; i++) {
+			System.out.print( retVal[i] );
+		}
+		System.out.println( " " );
+*/		
 		return retVal;
 	}
 
@@ -189,21 +211,6 @@ public class FanMeeting {
 	}
 	
 	private static int[] multiply(int[] number1, int[] number2) {
-/*		
-		ArrayList<Integer> result = new ArrayList<Integer>(number1.length+number2.length);
-		Collections.fill( result, 0 );
-		
-		ArrayList<Integer> num1 = new ArrayList<Integer>(number1.length);
-		for (int i = 0; i < number1.length; i++) {
-			num1.add( number1[i] );			
-		}
-		
-		ArrayList<Integer> num2 = new ArrayList<Integer>(number2.length);
-		for (int i = 0; i < number2.length; i++) {
-			num2.add( number2[i] );			
-		}
-*/
-		
 		int[] result = new int[number1.length+number2.length+1];
 		Arrays.fill( result, 0 );
 		
@@ -213,14 +220,15 @@ public class FanMeeting {
 			}
 		}
 		
-		ArrayList<Integer> ret = normalize( result );
-		int[] nRet = new int[ret.size()];
-		for (int i = 0; i < ret.size(); i++) {
-			nRet[i] = ret.get(i);
-		}
+//		ArrayList<Integer> ret = normalize( result );
+//		int[] nRet = new int[ret.size()];
+//		for (int i = 0; i < ret.size(); i++) {
+//			nRet[i] = ret.get(i);
+//		}
+//		
+//		return nRet;
 		
-		return nRet;
-//		return result;
+		return result;
 	}
 
 	private static ArrayList<Integer> normalize(int[] numArray) {
