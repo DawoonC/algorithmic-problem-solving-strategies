@@ -39,17 +39,19 @@ public class PI {
 		
 		if( cache[begin] != -1 )	return cache[begin];
 
+		cache[begin] = INF;
 		int ret = INF;
 		for (int len = 3; len <= 5; len++) {
 			if( begin+len <= inputStr.length() )	{
-				cache[begin+len] = Math.min( ret, memorize(begin+len)+classify(begin, begin+len) );
-				ret = cache[begin+len];
+				cache[begin] = Math.min( ret, memorize(begin+len)+classify(begin, begin+len) );
+				ret = cache[begin];
 			}
 		}
 		
 		return ret;
 	}
 	
+	//	8[0,7], [0,2] => [3,7]
 	//	return hardness of [a, b]
 	private static int classify(int a, int b) {
 		char[] m = inputStr.substring( a, b ).toCharArray();
