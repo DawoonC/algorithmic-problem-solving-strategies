@@ -42,6 +42,13 @@ def runner():
     for testcase in range(total_tests):
         width = int(raw_input())
         cache = defaultdict(lambda:-1)
-        print asymmetric2(width, cache)
+        print asymmetric(width, cache)
 
-runner()
+# runner()
+
+'''
+3
+2
+4
+92
+'''
