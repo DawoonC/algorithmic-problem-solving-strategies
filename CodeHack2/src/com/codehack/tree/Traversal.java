@@ -6,6 +6,7 @@ import java.util.Scanner;
 //7
 //27 16 9 12 54 36 72	pre-order
 //9 12 16 27 36 54 72	in-order
+//12 9 16 36 72 54 27
 public class Traversal {
     private static Scanner sc;
     
@@ -37,15 +38,17 @@ public class Traversal {
 
 	private static void printPostOrder(List<Integer> preOrder, List<Integer> inOrder) {
 		int size = preOrder.size();
-		if( preOrder.isEmpty() )	return;
+		if( preOrder.isEmpty() )	{
+//			System.out.print( "e " );
+			return;
+		}
 
-		int root = preOrder.get(0);
+		int root = preOrder.get(0);	//	get root
 		int leftSubSize = inOrder.indexOf(new Integer(root));
 		
-		printPostOrder( preOrder.subList(1, leftSubSize+1), inOrder.subList(0, leftSubSize) );
-		printPostOrder( preOrder.subList(leftSubSize+1, size), inOrder.subList(leftSubSize+1, size) );
-		
-		System.out.print( root + " " );
+		printPostOrder( preOrder.subList(1, leftSubSize+1), inOrder.subList(0, leftSubSize) );			//	left(sub) print
+		printPostOrder( preOrder.subList(leftSubSize+1, size), inOrder.subList(leftSubSize+1, size) );	//	right(sub) print
+		System.out.print( root + " " );																	//	root print
 	}
 
 }
