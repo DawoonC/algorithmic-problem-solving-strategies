@@ -1,6 +1,6 @@
 # Problem ID: POLY
 # https://algospot.com/judge/problem/read/POLY
-# timeout
+# 167ms
 
 from collections import defaultdict
 
@@ -35,9 +35,9 @@ def get_total_poly(n, polydict, MOD):
 def poly():
     MOD = 10*1000*1000
     total_tests = int(readline())
+    polydict = defaultdict(lambda:-1)
     for testcase in range(total_tests):
         n = int(readline())
-        polydict = defaultdict(lambda:-1)
         print get_total_poly(n, polydict, MOD)
 
 
