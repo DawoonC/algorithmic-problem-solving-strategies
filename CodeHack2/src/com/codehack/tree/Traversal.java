@@ -6,7 +6,7 @@ import java.util.Scanner;
 //7
 //27 16 9 12 54 36 72	pre-order
 //9 12 16 27 36 54 72	in-order
-//12 9 16 36 72 54 27
+//12 9 16 36 72 54 27	<post-order>
 public class Traversal {
     private static Scanner sc;
     
