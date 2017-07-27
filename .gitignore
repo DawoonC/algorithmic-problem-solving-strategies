@@ -2,3 +2,6 @@
 /Sample Project/
 /CodeHack2/.cache-main
 *.pyc
+
+.idea/
+
