@@ -19,7 +19,7 @@ def get_min_lunchtime(durations):
 def lunchbox():
     total_tests = int(readline())
     for testcase in range(total_tests):
-        n = int(readline())
+        readline()
         cook_durations = map(int, readline().split())
         eat_durations = map(int, readline().split())
         durations = sorted(zip(eat_durations, cook_durations), reverse=True)
