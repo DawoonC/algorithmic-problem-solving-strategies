@@ -9,7 +9,7 @@ def kmp_search(full_str, sub_str):
     """
     n, m = len(full_str), len(sub_str)
     result = []
-    pi = get_partial_match(sub_str, m)
+    pi = get_partial_match(sub_str)
     begin, matched = 0, 0
     while begin <= (n - m):
         if matched < m and full_str[begin + matched] == sub_str[matched]:
