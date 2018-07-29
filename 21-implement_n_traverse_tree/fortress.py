@@ -4,6 +4,7 @@
 
 from collections import defaultdict
 
+
 class Wall(object):
     def __init__(self):
         self.child = []
@@ -14,25 +15,29 @@ def readline():
 
 
 def sqrdist(a, b, x_list, y_list):
-    return ((y_list[a] - y_list[b])**2) + ((x_list[a] - x_list[b])**2)
+    return ((y_list[a] - y_list[b]) ** 2) + ((x_list[a] - x_list[b]) ** 2)
 
 
+# check if the wall b is inside the wall a
 def encloses(a, b, x_list, y_list, r_list):
-    return r_list[a] > r_list[b] and sqrdist(a, b, x_list, y_list) < (r_list[a] - r_list[b])**2
+    return (r_list[a] > r_list[b] and
+            sqrdist(a, b, x_list, y_list) < (r_list[a] - r_list[b]) ** 2)
 
 
 def is_child(parent, child, x_list, y_list, r_list, n, child_dict):
-    if child_dict[(parent,child)] != None:
-        return child_dict[(parent,child)]
+    if child_dict[(parent, child)] is not None:
+        return child_dict[(parent, child)]
     result = None
     if not encloses(parent, child, x_list, y_list, r_list):
-        result = child_dict[(parent,child)] = False
+        result = child_dict[(parent, child)] = False
         return result
+    # check if there is another wall between current parent-child candidates
+    # if there is a wall between them, then they are not direct parent-child
     for i in range(n):
         if i != parent and i != child and encloses(parent, i, x_list, y_list, r_list) and encloses(i, child, x_list, y_list, r_list):
-            result = child_dict[(parent,child)] = False
+            result = child_dict[(parent, child)] = False
             return result
-    result = child_dict[(parent,child)] = True
+    result = child_dict[(parent, child)] = True
     return result
 
 
@@ -56,6 +61,7 @@ def find_height(root_node, longest):
     return heights[-1] + 1
 
 
+# the longest path is either leat-to-leaf or leaf-to-root
 def find_longest_path(root_node):
     longest = [0]
     height = find_height(root_node, longest)
