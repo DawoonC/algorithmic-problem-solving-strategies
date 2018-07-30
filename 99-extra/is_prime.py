@@ -14,33 +14,20 @@ def is_prime(n):
 
 
 def test():
-    n = 2
-    result = is_prime(n)
-    assert result is True
-    n = 3
-    result = is_prime(n)
-    assert result is True
-    n = 4
-    result = is_prime(n)
-    assert result is False
-    n = 13
-    result = is_prime(n)
-    assert result is True
-    n = 541
-    result = is_prime(n)
-    assert result is True
-    n = 179426445
-    result = is_prime(n)
-    assert result is False
-    n = 179426447
-    result = is_prime(n)
-    assert result is True
-    n = 32416189909
-    result = is_prime(n)
-    assert result is True
-    n = 32416189907
-    result = is_prime(n)
-    assert result is False
+    n_list = [
+        (2, True),
+        (3, True),
+        (4, False),
+        (13, True),
+        (541, True),
+        (179426445, False),
+        (179426447, True),
+        (32416189909, True),
+        (32416189907, False),
+    ]
+    for (n, expected) in n_list:
+        result = is_prime(n)
+        assert result is expected
     print 'test success!'
 
 
