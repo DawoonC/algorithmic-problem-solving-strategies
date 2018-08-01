@@ -1,6 +1,6 @@
 def bfs(graph, start):
-    distances = { start: 0 }
-    path = { start: [start] }
+    distances = {start: 0}
+    path = {start: [start]}
     queue = [start]
     while queue:
         curr = queue.pop(0)

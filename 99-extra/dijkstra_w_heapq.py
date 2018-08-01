@@ -3,8 +3,8 @@ import heapq
 
 def dijkstra(graph, start):
     queue = [(0, start)]
-    distances = { start: 0 }
-    path = { start: [start] }
+    distances = {start: 0}
+    path = {start: [start]}
     while queue:
         (_, curr) = heapq.heappop(queue)
         for neighbor in graph[curr].keys():
