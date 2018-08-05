@@ -2,6 +2,7 @@ from collections import defaultdict
 
 
 def find_cut_vertex(here, is_root, graph, discovered, cut_vertices, counter):
+    # keep track order of discovery for every vertex
     result = discovered[here] = counter['val']
     counter['val'] += 1
     children = 0
@@ -9,6 +10,8 @@ def find_cut_vertex(here, is_root, graph, discovered, cut_vertices, counter):
         if discovered[neighbor] is None:
             children += 1
             subtree = find_cut_vertex(neighbor, False, graph, discovered, cut_vertices, counter)
+            # if there is no path to reach higher node in the tree from subtree
+            # then it means current vertext is a cut vertex
             if not is_root and subtree >= discovered[here]:
                 cut_vertices[here] = True
             result = min(result, subtree)
