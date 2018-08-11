@@ -1,49 +1,38 @@
 # Problem ID: ROUTING
 # https://algospot.com/judge/problem/read/ROUTING
-# timeout
+# took > 2000ms
 
 from collections import defaultdict
-from decimal import Decimal
+import heapq
+
 
 def readline():
     return raw_input()
 
 
-def get_precise_decimal(num):
-    decimal_num = str(Decimal(num))
-    dot = decimal_num.find('.') + 1
-    return decimal_num[:dot] + decimal_num[dot:][:10]
-
-
-def dijkstra(g, start, end):
+def route_dijkstra(start, graph):
+    queue = [(1, start)]
     dist = {start: 1}
-    queue = [start]
     while queue:
-        v = queue.pop(0)
-        for w in g[v].keys():
-            if w not in dist or dist[v]*g[v][w] < dist[w]:
-                dist[w] = dist[v]*g[v][w]
-                queue.append(w)
-    return dist[end]
-
-
-def make_edge(a, b, c, graph):
-    c = float(c)
-    if b not in graph[a] or c < graph[a][b]:
-        graph[a][b] = c
-        graph[b][a] = c
+        _, curr = heapq.heappop(queue)
+        for neighbor in graph[curr].keys():
+            if neighbor not in dist or (dist[curr] * graph[curr][neighbor]) < dist[neighbor]:
+                dist[neighbor] = dist[curr] * graph[curr][neighbor]
+                heapq.heappush(queue, (dist[neighbor], neighbor))
+    return dist
 
 
 def routing():
     total_tests = int(readline())
-    for testcase in range(total_tests):
-        n, m = map(int, readline().split())
-        graph = defaultdict(lambda: defaultdict(float))
-        for i in range(m):
-            a, b, c = readline().split()
-            make_edge(a, b, c, graph)
-        result = dijkstra(graph, '0', str(n-1))
-        print get_precise_decimal(result)
+    for _ in xrange(total_tests):
+        n_com, n_line = map(int, readline().split())
+        graph = defaultdict(lambda: defaultdict(lambda: float('inf')))
+        for _ in xrange(n_line):
+            u, v, w = readline().split()
+            u, v, w = int(u), int(v), float(w)
+            graph[u][v] = graph[v][u] = min(graph[u][v], w)
+        dist = route_dijkstra(0, graph)
+        print '%.10f' % dist[n_com - 1]
 
 
 if __name__ == '__main__':
