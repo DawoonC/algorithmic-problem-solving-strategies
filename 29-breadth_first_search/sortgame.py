@@ -1,8 +1,9 @@
 # Problem ID: SORTGAME
 # https://algospot.com/judge/problem/read/SORTGAME
-# timeout
+# took 1184ms
 
 from collections import defaultdict
+
 
 def readline():
     return raw_input()
@@ -12,39 +13,35 @@ def precalc(n):
     ordered_nums = tuple(i for i in xrange(n))
     queue = []
     queue.append(ordered_nums)
-    sort_dict = defaultdict(lambda:-1)
+    sort_dict = defaultdict(lambda: None)
     sort_dict[ordered_nums] = 0
-    while len(queue) != 0:
+    while queue:
         here = queue.pop(0)
         cost = sort_dict[here]
-        for i in range(n):
-            for j in range(i+2, n+1):
-                _next = tuple(here[:i]+here[i:j][::-1]+here[j:])
-                if sort_dict[_next] == -1:
+        for i in xrange(n):
+            for j in xrange(i + 2, n + 1):
+                _next = here[:i] + here[i:j][::-1] + here[j:]
+                if sort_dict[_next] is None:
                     sort_dict[_next] = cost + 1
                     queue.append(_next)
     return sort_dict
 
 
 def convert_nums(unsorted_nums, n):
-    converted_nums = [None] * n
-    for i in range(n):
-        converted = 0
-        for j in range(n):
-            if unsorted_nums[j] < unsorted_nums[i]:
-                converted += 1
-        converted_nums[i] = converted
-    return tuple(converted_nums)
+    sorted_nums = sorted(unsorted_nums)
+    i_dict = {sorted_nums[i]: i for i in xrange(n)}
+    return tuple(i_dict[e] for e in unsorted_nums)
 
 
 def sortgame():
     total_tests = int(readline())
-    answer_dict = defaultdict(lambda: False)
-    for testcase in range(total_tests):
+    max_n = 8
+    answer_dict = {}
+    for n in xrange(1, max_n + 1):
+        answer_dict[n] = precalc(n)
+    for testcase in xrange(total_tests):
         n = int(readline())
         sort_dict = answer_dict[n]
-        if not sort_dict:
-            sort_dict = precalc(n)
         nums = map(int, readline().split())
         converted_nums = convert_nums(nums, n)
         print sort_dict[converted_nums]
