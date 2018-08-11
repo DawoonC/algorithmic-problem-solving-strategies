@@ -27,3 +27,22 @@ def floyd_new(graph):
             for v in nodes:
                 dist[u][v] = min(dist[u][v], dist[u][k] + dist[k][v])
     return dist
+
+
+def floyd_path(graph):
+    dist = defaultdict(lambda: defaultdict(lambda: float('inf')))
+    path = defaultdict(lambda: defaultdict(list))
+    for curr in graph.keys():
+        dist[curr][curr] = 0
+        path[curr][curr] = [curr]
+        for neighbor in graph[curr].keys():
+            dist[curr][neighbor] = graph[curr][neighbor]
+            path[curr][neighbor] = [curr, neighbor]
+    nodes = graph.keys()
+    for k in nodes:
+        for u in nodes:
+            for v in nodes:
+                if (dist[u][k] + dist[k][v]) < dist[u][v]:
+                    dist[u][v] = dist[u][k] + dist[k][v]
+                    path[u][v] = path[u][k] + path[k][v][1:]
+    return dist, path
