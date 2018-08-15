@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 
+# Finds maximum amount of flows from source to sink (target)
 def ford_fulkerson(source, sink, capacity, nodes):
     flows = defaultdict(lambda: defaultdict(int))
     total_flows = 0
@@ -24,6 +25,9 @@ def ford_fulkerson(source, sink, capacity, nodes):
         p = sink
         while p != source:
             flows[parents[p]][p] += amount
+            # negative amount to inverse direction
+            # ensures to find the maximum total flow
+            # no matter which path we take.
             flows[p][parents[p]] -= amount
             p = parents[p]
         total_flows += amount
